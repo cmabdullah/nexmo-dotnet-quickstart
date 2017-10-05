@@ -18,11 +18,7 @@ namespace NexmoVoiceASPNetCoreQuickStarts.Helpers
             TalkNCCO.text = callText;
             TalkNCCO.voiceName = callVoice;
 
-            var pathToFile = Path.Combine(rootpath,"TalkNCCO.json");
-            using (StreamWriter s = File.CreateText(pathToFile))
-            {
-              s.Write(TalkNCCO.ToString());
-            }
+            SaveFile(rootpath, "TalkNCCO.json", TalkNCCO);
         }
 
         public void CreateStreamNCCO(string rootpath, string[] streamUrl, int level, bool bargeIn, int loopTimes)
@@ -34,7 +30,12 @@ namespace NexmoVoiceASPNetCoreQuickStarts.Helpers
             StreamNCCO.bargeIn = bargeIn;
             StreamNCCO.loop = loopTimes;
 
-            var pathToFile = Path.Combine(rootpath, "StreamNCCO.json");
+            SaveFile(rootpath, "StreamNCCO.json", StreamNCCO);
+        }
+
+        private void SaveFile(string rootpath, string filename, dynamic StreamNCCO)
+        {
+            var pathToFile = Path.Combine(rootpath, filename);
             using (StreamWriter s = File.CreateText(pathToFile))
             {
                 s.Write(StreamNCCO.ToString());
