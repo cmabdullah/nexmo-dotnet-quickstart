@@ -371,6 +371,9 @@
     <Content Include="Views\Voice\GetCall.cshtml" />
     <Content Include="Views\Voice\Index.cshtml" />
     <Content Include="Views\Voice\MakeCall.cshtml" />
+    <Content Include="Views\NumberInsight\Advanced.cshtml" />
+    <Content Include="Views\NumberInsight\AdvancedResults.cshtml" />
+    <Content Include="Views\Voice\MuteCall.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />

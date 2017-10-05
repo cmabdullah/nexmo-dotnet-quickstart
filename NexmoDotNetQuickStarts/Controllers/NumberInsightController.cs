@@ -1,14 +1,11 @@
-﻿using Nexmo.Api;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
+using NumberInsight = Nexmo.Api.NumberInsight;
 
 namespace NexmoDotNetQuickStarts.Controllers
 {
     public class NumberInsightController : Controller
     {
+        
         [HttpGet]
         public ActionResult Index()
         {
@@ -26,15 +23,15 @@ namespace NexmoDotNetQuickStarts.Controllers
         {
             var results = NumberInsight.RequestBasic(new NumberInsight.NumberInsightBasicRequest
             {
-                number = number,
+                Number = number,
             });
 
-            Session["requestID"] = results.request_id;
-            Session["iNumber"] = results.international_format_number;
-            Session["nNumber"] = results.national_format_number;
-            Session["status"] = results.status_message;
-            Session["country"] = results.country_name;
-            Session["countryCode"] = results.country_code;
+            Session["requestID"] = results.RequestId;
+            Session["iNumber"] = results.InternationalFormatNumber;
+            Session["nNumber"] = results.NationalFormatNumber;
+            Session["status"] = results.StatusMessage;
+            Session["country"] = results.CountryName;
+            Session["countryCode"] = results.CountryCode;
 
             return RedirectToAction("BasicResults");
         }
@@ -62,22 +59,26 @@ namespace NexmoDotNetQuickStarts.Controllers
         {
             var results = NumberInsight.RequestStandard(new NumberInsight.NumberInsightBasicRequest()
             {
-                number = number,
+                Number = number,
             });
-            Session["requestID"] =  results.request_id;
-            Session["iNumber"] = results.international_format_number;
-            Session["nNumber"] = results.national_format_number;
-            Session["country"] = results.country_name;
-            Session["countryCode"] = results.country_code;
-            Session["status"] = results.status_message;
-            Session["currentCarrierName"] = results.original_carrier.name;
-            Session["currentCarrierCode"] = results.current_carrier.network_code;
-            Session["currentCarrierType"] = results.current_carrier.network_type;
-            Session["currentCarrierCountry"] = results.current_carrier.country;
-            Session["originalCarrierName"] = results.original_carrier.name;
-            Session["originalCarrierCode"] = results.original_carrier.network_code;
-            Session["originalCarrierType"] = results.original_carrier.network_type;
-            Session["originalCarrierCountry"] = results.original_carrier.country;
+            Session["requestID"] =  results.RequestId;
+            Session["iNumber"] = results.InternationalFormatNumber;
+            Session["nNumber"] = results.NationalFormatNumber;
+            Session["country"] = results.CountryName;
+            Session["countryCode"] = results.CountryCode;
+            Session["status"] = results.StatusMessage;
+            Session["currentCarrierName"] = results.CurrentCarrier.Name;
+            Session["currentCarrierCode"] = results.CurrentCarrier.NetworkCode;
+            Session["currentCarrierType"] = results.CurrentCarrier.NetworkType;
+            Session["currentCarrierCountry"] = results.CurrentCarrier.Country;
+            Session["originalCarrierName"] = results.OriginalCarrier.Name;
+            Session["originalCarrierCode"] = results.OriginalCarrier.NetworkCode;
+            Session["originalCarrierType"] = results.OriginalCarrier.NetworkType;
+            Session["originalCarrierCountry"] = results.OriginalCarrier.Country;
+            Session["callerType"] = results.CallerType;
+            Session["callerName"] = results.CallerName;
+            Session["callerFirstName"] = results.FirstName;
+            Session["callerLastName"] = results.LastName;
 
 
 
@@ -101,6 +102,40 @@ namespace NexmoDotNetQuickStarts.Controllers
             ViewBag.originalCarrierCode = Session["originalCarrierCode"];
             ViewBag.originalCarrierType = Session["originalCarrierType"];
             ViewBag.originalCarrierCountry = Session["originalCarrierCountry"];
+            ViewBag.callerType = Session["callerType"];
+            ViewBag.callerName = Session["callerName"];
+            ViewBag.callerFirstName = Session["callerFirstName"];
+            ViewBag.callerLastName = Session["callerLastName"];
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult Advanced()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Advanced(string number)
+        {
+            var results = NumberInsight.RequestAdvanced(new NumberInsight.NumberInsightAdvancedRequest()
+            {
+                Number = number,
+            });
+            Session["numberValidity"] = results.NumberValidity;
+            Session["numberReachability"] = results.NumberReachability;
+            Session["roamingStatus"] = results.RoamingInformation.Roamingstatus;
+
+            return RedirectToAction("AdvancedResults");
+        }
+
+        [HttpGet]
+        public ActionResult AdvancedResults()
+        {
+            ViewBag.numberValidity = Session["numberValidity"];
+            ViewBag.numberReachability = Session["numberReachability"];
+            ViewBag.roamingStatus = Session["roamingStatus"];
+
             return View();
         }
 
